@@ -8,8 +8,15 @@ $("#search-button").on("click", function(event){
     currentCitySearch = searchInput.val();
     getLocation();
 });
-
-
+// This function will save searched city to local storage, capping at 10 searched cities
+function saveSearch(city){
+    const cityLocalHistory = JSON.parse(localStorage.getItem('history')) || [];
+    addToHistory(city);
+    cityLocalHistory.unshift(city);
+    cityLocalHistory.splice(10);
+    deleteFromHistory(cityLocalHistory);
+    localStorage.setItem("history", JSON.stringify(cityLocalHistory));
+};
 
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
 let getLocation = function (event){

@@ -10,6 +10,29 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
+    <header class="d-flex w-100 h-15vh justify-content-center text-white bg-info">
+        <h1>Weather Dashboard</h1>
+    </header>
+
+    <main class="row">
+        <article class="col-3" id="left-side-top">
+            <section id="search-area">
+                <h2>Search for a City:</h2>
+                <form id="form-html">
+                    <input  id="search-input" type="text" placeholder="City name...">
+                    <button id="search-button" class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </section>
+            <section id="search-history">
+                <h2>Previously searched cities:</h2>
+                <ul id="search-history-list"></ul>
+            </section>
+        </article>
+        <article class="col-9">
+
+        </article>
+
+    </main>
     
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

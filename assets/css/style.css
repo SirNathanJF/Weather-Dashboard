@@ -1,3 +1,17 @@
-*{
-    background-color: blue;
+#search-area{
+    border: 1px black solid;
+    height: 20vh;
+    padding: 10px;
+    margin: 10px;
+}
+
+#search-history {
+    border: 1px black solid;
+    height: 60vh;
+    padding: 10px;
+    margin: 10px;
+}
+
+#search-history-list{
+    list-style: none;
 }

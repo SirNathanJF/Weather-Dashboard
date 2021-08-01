@@ -87,3 +87,26 @@ function getCurrentWeather(lat, long, city){
         displayFiveDayWeather(data);
     });
 };
+// This function will display the weather for the selected city (current)
+function displayCurrentWeather(data, city) {
+    let weatherIcon = $("#weather-icon");
+
+    let dateCode = new Date(data.dt * 1000);
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    let month = months[dateCode.getMonth()];
+    let date = dateCode.getDate();
+    let year = dateCode.getFullYear();
+    let currentDay = month + "/" + date +"/" + year;
+
+    $("#current-city-name").text(city + " (" + currentDay + ")");
+
+    let iconCode = data.weather[0].icon;
+    let iconSource = "http://openweathermap.org/img/w/" + iconCode + ".png";
+    weatherIcon.attr("src", iconSource);
+    $('#current-temp').text('Temperate: ' + data.temp + ' °F');
+    $('#current-wind').text('Wind: ' + data.wind_speed + ' MPH'); 
+    $('#current-humidity').text('Humidity: ' + data.humidity + '%');
+    $('#current-uvindex').text('UV Index: ' + data.uvi);
+};
+
+

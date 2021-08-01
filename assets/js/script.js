@@ -1,3 +1,4 @@
+// Declares the couple global variables that I will need
 let searchInput = $("#search-input");
 let searchHistory = $("#search-history-list");
 let myApiKey = "f6dbccad1096ef580392335246d5632e";
@@ -8,6 +9,8 @@ $("#search-button").on("click", function(event){
     currentCitySearch = searchInput.val();
     getLocation();
 });
+
+
 // This function will save searched city to local storage, capping at 10 searched cities
 function saveSearch(city){
     const cityLocalHistory = JSON.parse(localStorage.getItem('history')) || [];
@@ -47,7 +50,7 @@ function displayHistory(saveSearch){
 };
 
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
-let getLocation = function (event){
+let getLocation = function (){
     let currentCitySearch = searchInput.val();
     let urlQuery = "https://api.openweathermap.org/data/2.5/weather?q=" + currentCitySearch + "&units=imperial" + "&APPID=" + myApiKey;
 
@@ -108,7 +111,7 @@ function displayCurrentWeather(data, city) {
     $('#current-humidity').text('Humidity: ' + data.humidity + '%');
     $('#current-uvindex').text('UV Index: ' + data.uvi);
 };
-
+// This function adds the five day forecast to the html, also empties previous data if search is performed again
 function displayFiveDayWeather(data) {
     let fiveDay = $("#five-day-html")
     fiveDay.empty();
@@ -140,3 +143,22 @@ function displayFiveDayWeather(data) {
         addDiv.appendTo(fiveDay);
     };
 };
+
+
+// This is an event listener for the added history buttons, does not function correctly as of current commit. 
+$('.history-btn').submit(function(event) {
+    event.preventDefault();
+    let currentCitySearch = $(e.target).data('city');
+    let urlQuery = 'https://api.openweathermap.org/data/2.5/weather?q=' + currentCitySearch + "&APPID=" + myApiKey
+
+    fetch(urlQuery).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        let lat = data.coord.lat;
+        let long = data.coord.lon;
+        getCurrentWeather(lat, long, currentCitySearch);
+    });
+});
+
+// This next line displays data from local storage on page launch/refresh
+displayHistory(JSON.parse(localStorage.getItem('history'))  || []);

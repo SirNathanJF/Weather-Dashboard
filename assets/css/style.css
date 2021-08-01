@@ -15,3 +15,10 @@
 #search-history-list{
     list-style: none;
 }
+
+#current-weather, #five-day-forecast{
+    border: 1px black solid;
+    height: 40vh;
+    padding: 10px;
+    margin: 10px;
+}

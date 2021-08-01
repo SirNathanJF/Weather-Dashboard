@@ -17,6 +17,16 @@ function saveSearch(city){
     deleteFromHistory(cityLocalHistory);
     localStorage.setItem("history", JSON.stringify(cityLocalHistory));
 };
+// adds the searched city to the html in the form of a button, to be clicked later for faster weather retreival for user
+function addToHistory(city) {
+    const generateList = $("<li>")
+    const generateBtn = $("<button>" + city + "</button>")
+
+    generateBtn.addClass("btn history-btn");
+    generateBtn.attr("data-city", city);
+    generateBtn.appendTo(generateList);
+    generateList.appendTo(searchHistory);
+}
 
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
 let getLocation = function (event){

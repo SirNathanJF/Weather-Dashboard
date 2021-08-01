@@ -22,3 +22,12 @@
     padding: 10px;
     margin: 10px;
 }
+
+.history-btn {
+    margin: 5px;
+}
+
+.five-day-cards {
+    border-right: 1px solid black;
+    color: blue;
+}

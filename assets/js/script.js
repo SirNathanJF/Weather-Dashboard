@@ -109,4 +109,34 @@ function displayCurrentWeather(data, city) {
     $('#current-uvindex').text('UV Index: ' + data.uvi);
 };
 
+function displayFiveDayWeather(data) {
+    let fiveDay = $("#five-day-html")
+    fiveDay.empty();
+    
+    for(let i = 1; i < 6; i++) {
+        let weatherData = data.daily[i];
+        const addDiv = $("<div>");
+        addDiv.addClass("col-2 five-day-cards");
 
+        let dateCode = new Date(weatherData.dt * 1000);
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        let month = months[dateCode.getMonth()];
+        let date = dateCode.getDate();
+        let year = dateCode.getFullYear();
+        let addDate = $('<p>' + month + '/' + date + '/' + year + '</p>');
+
+        var iconCode = weatherData.weather[0].icon;
+        var iconSource = "http://openweathermap.org/img/w/" + iconCode + ".png";
+        const addIcon = $('<img src="'+ iconSource +'"></img>');
+        const addTemp = $('<p>Temperate: ' + weatherData.temp.day + ' °F</p>');
+        const addWind = $('<p>Wind: ' + weatherData.wind_speed + ' MPH</p>');
+        const addHumidity = $('<p>Humidity: ' + weatherData.humidity + '%</p>');
+
+        addDate.appendTo(addDiv);
+        addIcon.appendTo(addDiv);
+        addTemp.appendTo(addDiv);
+        addWind.appendTo(addDiv);
+        addHumidity.appendTo(addDiv);
+        addDiv.appendTo(fiveDay);
+    };
+};

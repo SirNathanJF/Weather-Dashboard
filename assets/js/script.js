@@ -8,6 +8,9 @@ $("#search-button").on("click", function(event){
     currentCitySearch = searchInput.val();
     getLocation();
 });
+
+
+
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
 let getLocation = function (event){
     let currentCitySearch = searchInput.val();
@@ -32,4 +35,20 @@ let getLocation = function (event){
         };
     });
     $("#form-html").trigger("reset");
+};
+// This uses the previously fetched latitude and longitide to get the forecast from Open Weather
+function getCurrentWeather(lat, long, city){
+    let urlQuery = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&units=imperial" + "&APPID=" + myApiKey;
+
+    fetch(urlQuery).then(function (response){
+        if (response.status === 404) {
+            console.log('404 Error');
+            return;
+        } else {
+            return response.json();
+        }
+    }).then(function (data){
+        displayCurrentWeather(data.current, city);
+        displayFiveDayWeather(data);
+    });
 };

@@ -28,6 +28,12 @@ function addToHistory(city) {
     generateList.appendTo(searchHistory);
 }
 
+function deleteFromHistory (citiesList){
+    if (citiesList.length >= 10) {
+        $("#search-history-list li:last-child").remove();
+    }
+}
+
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
 let getLocation = function (event){
     let currentCitySearch = searchInput.val();

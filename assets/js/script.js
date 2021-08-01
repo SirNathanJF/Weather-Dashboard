@@ -27,12 +27,24 @@ function addToHistory(city) {
     generateBtn.appendTo(generateList);
     generateList.appendTo(searchHistory);
 }
-
+// This will remove the last item form the search history if list/local storage is over 10 items
 function deleteFromHistory (citiesList){
     if (citiesList.length >= 10) {
         $("#search-history-list li:last-child").remove();
     }
-}
+};
+// This function will display items from local storage on reload in the form of buttons
+function displayHistory(saveSearch){
+    saveSearch.forEach(element => {
+        const generateList = $("<li>")
+        const generateBtn = $("<button>" + element + "</button>")
+
+        generateBtn.addClass("btn history-btn");
+        generateBtn.attr("data-city", element);
+        generateBtn.appendTo(generateList);
+        generateList.appendTo(searchHistory);
+    });
+};
 
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
 let getLocation = function (event){

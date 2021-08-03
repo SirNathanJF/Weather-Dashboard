@@ -29,7 +29,24 @@ function addToHistory(city) {
     generateBtn.attr("data-city", city);
     generateBtn.appendTo(generateList);
     generateList.appendTo(searchHistory);
-}
+
+    // This is an event listener for the added history buttons, does not function correctly as of current commit. 
+$('.history-btn').click(function(event) {
+    event.preventDefault();
+    let currentCitySearch = $(e.target).data('city');
+    let urlQuery = 'https://api.openweathermap.org/data/2.5/weather?q=' + currentCitySearch + "&APPID=" + myApiKey
+
+    fetch(urlQuery,{cache: "reload",})
+    .then(function (response) {   
+        return response.json();
+    }).then(function (data) {
+        let lat = data.coord.lat;
+        let long = data.coord.lon;
+        getCurrentWeather(lat, long, currentCitySearch);
+     
+    });
+});
+};
 // This will remove the last item form the search history if list/local storage is over 10 items
 function deleteFromHistory (citiesList){
     if (citiesList.length >= 10) {
@@ -47,6 +64,22 @@ function displayHistory(saveSearch){
         generateBtn.appendTo(generateList);
         generateList.appendTo(searchHistory);
     });
+    // This is an event listener for the added history buttons, does not function correctly as of current commit. 
+$('.history-btn').click(function(event) {
+    event.preventDefault();
+    let currentCitySearch = $(event.target).data('city');
+    let urlQuery = 'https://api.openweathermap.org/data/2.5/weather?q=' + currentCitySearch + "&APPID=" + myApiKey
+
+    fetch(urlQuery,{cache: "reload",})
+    .then(function (response) {   
+        return response.json();
+    }).then(function (data) {
+        let lat = data.coord.lat;
+        let long = data.coord.lon;
+        getCurrentWeather(lat, long, currentCitySearch);
+     
+    });
+});
 };
 
 // This function contacts the Open Weather API for the latitude and longitude of the user's input
@@ -104,9 +137,9 @@ function displayCurrentWeather(data, city) {
     $("#current-city-name").text(city + " (" + currentDay + ")");
 
     let iconCode = data.weather[0].icon;
-    let iconSource = "http://openweathermap.org/img/w/" + iconCode + ".png";
+    let iconSource = "https://openweathermap.org/img/w/" + iconCode + ".png";
     weatherIcon.attr("src", iconSource);
-    $('#current-temp').text('Temperate: ' + data.temp + ' °F');
+    $('#current-temp').text('Temperature: ' + data.temp + ' °F');
     $('#current-wind').text('Wind: ' + data.wind_speed + ' MPH'); 
     $('#current-humidity').text('Humidity: ' + data.humidity + '%');
     $('#current-uvindex').text('UV Index: ' + data.uvi);
@@ -129,9 +162,9 @@ function displayFiveDayWeather(data) {
         let addDate = $('<p>' + month + '/' + date + '/' + year + '</p>');
 
         var iconCode = weatherData.weather[0].icon;
-        var iconSource = "http://openweathermap.org/img/w/" + iconCode + ".png";
+        var iconSource = "https://openweathermap.org/img/w/" + iconCode + ".png";
         const addIcon = $('<img src="'+ iconSource +'"></img>');
-        const addTemp = $('<p>Temperate: ' + weatherData.temp.day + ' °F</p>');
+        const addTemp = $('<p>Temperature: ' + weatherData.temp.day + ' °F</p>');
         const addWind = $('<p>Wind: ' + weatherData.wind_speed + ' MPH</p>');
         const addHumidity = $('<p>Humidity: ' + weatherData.humidity + '%</p>');
 
@@ -145,20 +178,7 @@ function displayFiveDayWeather(data) {
 };
 
 
-// This is an event listener for the added history buttons, does not function correctly as of current commit. 
-$('.history-btn').submit(function(event) {
-    event.preventDefault();
-    let currentCitySearch = $(e.target).data('city');
-    let urlQuery = 'https://api.openweathermap.org/data/2.5/weather?q=' + currentCitySearch + "&APPID=" + myApiKey
 
-    fetch(urlQuery).then(function (response) {
-        return response.json();
-    }).then(function (data) {
-        let lat = data.coord.lat;
-        let long = data.coord.lon;
-        getCurrentWeather(lat, long, currentCitySearch);
-    });
-});
 
 // This next line displays data from local storage on page launch/refresh
 displayHistory(JSON.parse(localStorage.getItem('history'))  || []);

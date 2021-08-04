@@ -134,7 +134,7 @@ function displayCurrentWeather(data, city) {
     let year = dateCode.getFullYear();
     let currentDay = month + "/" + date +"/" + year;
 
-    $("#current-city-name").text(city + " (" + currentDay + ")");
+    $("#current-city").text(city + " (" + currentDay + ")");
 
     let iconCode = data.weather[0].icon;
     let iconSource = "https://openweathermap.org/img/w/" + iconCode + ".png";
